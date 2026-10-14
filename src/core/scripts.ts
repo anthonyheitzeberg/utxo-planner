@@ -16,6 +16,14 @@ export const SCRIPT_VB: Readonly<Record<ScriptType, ScriptVbytes>> = {
   p2tr: { inputVb: 57.5, outputVb: 43 },
 };
 
+/** Every supported script type, in table order. */
+export const SCRIPT_TYPES: readonly ScriptType[] = [
+  "p2pkh",
+  "p2sh-p2wpkh",
+  "p2wpkh",
+  "p2tr",
+];
+
 /** Estimated transaction overhead, in virtual bytes (vB). */
 // TODO: Verify this estimate against real transactions and a current reference:
 // https://bitcoinops.org/en/tools/calc-size/

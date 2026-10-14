@@ -11,7 +11,7 @@ const menuOpen = ref(false);
     >
       <a
         class="font-semibold tracking-tight text-content dark:text-content-dark"
-        href="#overview"
+        href="#/"
       >
         UTXO Planner
       </a>
@@ -32,9 +32,16 @@ const menuOpen = ref(false);
       >
         <a
           class="hover:text-primary dark:hover:text-primary-dark"
-          href="#overview"
+          href="#/"
           @click="menuOpen = false"
-          >home</a
+        >
+          home</a
+        >
+        <a
+          class="hover:text-primary dark:hover:text-primary-dark"
+          href="#/planner"
+          @click="menuOpen = false"
+          >planner</a
         >
         <a
           class="hover:text-primary dark:hover:text-primary-dark"

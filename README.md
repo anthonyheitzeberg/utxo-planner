@@ -6,11 +6,10 @@
 
 UTXO Planner is an open-source, client-side tool for evaluating when and how to
 consolidate Bitcoin UTXOs. Consolidation pays a transaction fee now to combine
-inputs, with the aim of reducing the cost of future spends. This initial
-scaffold implements the pure cost-model foundation and a responsive static
-landing page; the copy and empty result indicators are clearly marked as
-placeholders. It does not yet import CSVs, make API requests, or provide the
-interactive planning UI.
+inputs, with the aim of reducing the cost of future spends. The app has a pure
+cost-model core, a placeholder landing page, and a planner view (`#/planner`)
+where you enter UTXOs manually or via CSV, set static fee-rate assumptions, and
+see a verdict, net savings, and break-even rate. It makes no network requests.
 
 > **Security:** This tool never asks for keys. It runs in your browser. It
 > never signs or broadcasts transactions. It has no backend, analytics,
@@ -51,8 +50,10 @@ reveal the redeem script.
 
 ## Privacy and data
 
-Manual entry and CSV input are intended to be the default, most private modes;
-they are not implemented yet. Address lookup is not implemented. When it is
+Manual entry and CSV input are the default, most private modes. Data stays in
+memory in the page and is never stored or sent. CSV columns are
+`txid,vout,value_sats,script_type` (header optional, no quoted fields); errors
+are reported per line. Address lookup is not implemented. When it is
 added, it must explicitly disclose that addresses are sent to the selected API
 host and require acknowledgment before the first lookup. A custom mempool
 instance must send appropriate CORS headers. Do not enter xpubs: they reveal
@@ -60,12 +61,11 @@ wallet history, even when no private key is disclosed.
 
 Consolidating inputs can publicly link them through the common-input-ownership
 heuristic. Mixing script types may also fingerprint wallet behavior. The core
-privacy helper surfaces both conditions, but the planner UI that presents
-those warnings is not implemented yet.
+privacy helper surfaces both conditions, and the planner view displays them.
 
 ## Networks and data sources
 
-The landing page uses native hash links to navigate its sections. No network
+The app uses a small hand-written hash router (`#/` and `#/planner`). No network
 selector is included yet. The app does not connect to mempool.space or retrieve
 current or historical fee data. No API endpoint or network prefix is used by
 this scaffold; verify paths against the
@@ -77,11 +77,11 @@ when implementing the service.
 ```text
 src/
   core/        pure TypeScript types, script sizes, cost model, strategy and privacy
-  services/    future network and CSV I/O (not implemented)
-  stores/      future Pinia state (not implemented)
-  components/  static landing-page components
-  views/       static home view
-tests/core/    cost-model, validation, and privacy tests
+  services/    pure CSV and field parsers (no network yet)
+  stores/      Pinia planner store
+  components/  landing-page and planner components
+  views/       home and planner views
+tests/         core, services, store, and component tests
 ```
 
 The `src/core` modules have no Vue, DOM, storage, or network access. Vite is
@@ -117,7 +117,8 @@ Actions** in repository settings.
 
 ## Limitations
 
-- This step is a scaffold and cost-model foundation, not a functioning planner.
+- Fee rates are static user inputs (placeholder defaults of 5 and 20 sat/vB),
+  not live data.
 - Sizes are approximations; actual transaction sizes depend on scripts and
   signatures.
 - Future fee rates are uncertain. A later historical estimate cannot predict
