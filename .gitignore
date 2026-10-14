@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+.vite/
+*.local
+
+# Keep local agent instructions out of the remote repository.
+/AGENTS.md
+/.github/copilot-instructions.md
+/.github/instructions/
