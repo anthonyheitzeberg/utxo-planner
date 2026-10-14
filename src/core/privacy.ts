@@ -2,6 +2,7 @@ import type { Utxo } from "./types";
 
 /**
  * Describe common-input-ownership and mixed-script privacy costs for a plan.
+ * TODO: Add further privacy guidance when batch recommendations are implemented.
  */
 export function getPrivacyWarnings(utxos: readonly Utxo[]): readonly string[] {
   const warnings: string[] = [];

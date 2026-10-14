@@ -6,8 +6,8 @@ export interface ScriptVbytes {
   readonly outputVb: number;
 }
 
-// Approximate standard sizes; verify transaction-specific estimates before changing.
-// TODO: Add verified transaction references for each estimate:
+// Approximate standard sizes; verify transaction-specific estimates before relying on them.
+// TODO: Verify each estimate against real transactions and a current reference:
 // https://bitcoinops.org/en/tools/calc-size/
 export const SCRIPT_VB: Readonly<Record<ScriptType, ScriptVbytes>> = {
   p2pkh: { inputVb: 148, outputVb: 34 },
@@ -16,8 +16,13 @@ export const SCRIPT_VB: Readonly<Record<ScriptType, ScriptVbytes>> = {
   p2tr: { inputVb: 57.5, outputVb: 43 },
 };
 
+/** Estimated transaction overhead, in virtual bytes (vB). */
+// TODO: Verify this estimate against real transactions and a current reference:
+// https://bitcoinops.org/en/tools/calc-size/
+export const OVERHEAD_VB = 10.5;
+
 /**
- * Return the approximate input and output sizes in vbytes for a script type.
+ * Return the approximate input and output sizes in vB for a script type.
  */
 export function getScriptVbytes(scriptType: ScriptType): ScriptVbytes {
   return SCRIPT_VB[scriptType];

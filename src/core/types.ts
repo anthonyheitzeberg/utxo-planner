@@ -1,5 +1,7 @@
+/** Supported output and input script templates used by the size estimates. */
 export type ScriptType = "p2pkh" | "p2sh-p2wpkh" | "p2wpkh" | "p2tr";
 
+/** A spendable output; `valueSats` is an integer number of satoshis. */
 export interface Utxo {
   readonly txid: string;
   readonly vout: number;
@@ -7,12 +9,14 @@ export interface Utxo {
   readonly scriptType: ScriptType;
 }
 
+/** Fee assumptions; fee rates are expressed in sat/vB. */
 export interface FeeEnvironment {
   readonly nowRateSatPerVb: number;
   readonly futureRateSatPerVb: number;
   readonly consolidationScriptType: ScriptType;
 }
 
+/** Estimated result; savings and UTXO values are expressed in integer sats. */
 export interface Recommendation {
   readonly estimatedSavingsSats: number;
   readonly breakEvenRateSatPerVb: number | undefined;
@@ -29,8 +33,10 @@ export class InvalidUtxoError extends Error {
   }
 }
 
-/** Validate an untrusted UTXO value before using it in the cost model. */
-export function validateUtxo(value: unknown): Utxo {
+/**
+ * Validate and copy an untrusted UTXO; `valueSats` must be positive integer sats.
+ */
+export function createUtxo(value: unknown): Utxo {
   if (typeof value !== "object" || value === null) {
     throw new InvalidUtxoError("UTXO must be an object.");
   }

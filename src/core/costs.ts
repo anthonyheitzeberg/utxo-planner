@@ -1,7 +1,5 @@
 import type { ScriptType, Utxo } from "./types";
-import { getScriptVbytes } from "./scripts";
-
-export const TRANSACTION_OVERHEAD_VB = 10.5;
+import { getScriptVbytes, OVERHEAD_VB } from "./scripts";
 
 function validateFeeRate(rateSatPerVb: number): void {
   if (!Number.isFinite(rateSatPerVb) || rateSatPerVb < 0) {
@@ -12,8 +10,8 @@ function validateFeeRate(rateSatPerVb: number): void {
 }
 
 /**
- * Estimate consolidation cost in sats:
- * ceil((overhead vB + sum(input vB) + one output vB) * fee rate sat/vB).
+ * Estimate consolidation cost in integer sats:
+ * ceil((OVERHEAD_VB + sum(input vB) + output vB) * fee rate sat/vB).
  */
 export function consolidationCost(
   utxos: readonly Utxo[],
@@ -26,14 +24,12 @@ export function consolidationCost(
     0,
   );
   const transactionVb =
-    TRANSACTION_OVERHEAD_VB +
-    inputsVb +
-    getScriptVbytes(outputScriptType).outputVb;
+    OVERHEAD_VB + inputsVb + getScriptVbytes(outputScriptType).outputVb;
   return Math.ceil(transactionVb * nowRateSatPerVb);
 }
 
 /**
- * Estimate net savings in sats:
+ * Estimate net savings in integer sats:
  * sum(input vB) * future rate - consolidated input vB * future rate - cost now.
  * A one-input "consolidation" has no future input-size savings.
  */
@@ -64,7 +60,8 @@ export function consolidationSavings(
 
 /**
  * Calculate the continuous break-even fee rate in sat/vB:
- * (laterWithout - laterWith) / (overhead + inputs + output).
+ * ((input vB sum - consolidated input vB) * future rate) /
+ * (OVERHEAD_VB + input vB sum + output vB).
  * Returns undefined when no positive future input-size savings are possible.
  */
 export function breakEvenRate(
@@ -83,9 +80,7 @@ export function breakEvenRate(
   );
   const inputSavingsVb = inputVb - getScriptVbytes(outputScriptType).inputVb;
   const consolidationVb =
-    TRANSACTION_OVERHEAD_VB +
-    inputVb +
-    getScriptVbytes(outputScriptType).outputVb;
+    OVERHEAD_VB + inputVb + getScriptVbytes(outputScriptType).outputVb;
   if (inputSavingsVb <= 0) {
     return undefined;
   }
@@ -93,7 +88,7 @@ export function breakEvenRate(
 }
 
 /**
- * Check whether a UTXO's value in sats is below its estimated input spend cost:
+ * Check whether integer value sats are below the estimated input spend cost:
  * valueSats < ceil(input vB * current fee rate sat/vB).
  */
 export function isUneconomical(utxo: Utxo, nowRateSatPerVb: number): boolean {

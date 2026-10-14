@@ -10,15 +10,12 @@ import {
   detectAddressScriptType,
   getScriptVbytes,
   isScriptType,
+  OVERHEAD_VB,
   SCRIPT_VB,
 } from "../../src/core/scripts";
 import { getPrivacyWarnings } from "../../src/core/privacy";
 import { recommendConsolidation } from "../../src/core/strategy";
-import {
-  InvalidUtxoError,
-  validateUtxo,
-  type Utxo,
-} from "../../src/core/types";
+import { InvalidUtxoError, createUtxo, type Utxo } from "../../src/core/types";
 
 const TXID = "0123456789abcdef".repeat(4);
 
@@ -38,6 +35,7 @@ const rateArbitrary = fc
 
 describe("script sizes", () => {
   it("returns the standard approximate sizes for every supported script", () => {
+    expect(OVERHEAD_VB).toBe(10.5);
     expect(SCRIPT_VB).toEqual({
       p2pkh: { inputVb: 148, outputVb: 34 },
       "p2sh-p2wpkh": { inputVb: 91, outputVb: 32 },
@@ -73,7 +71,7 @@ describe("script sizes", () => {
 
 describe("UTXO validation", () => {
   it("copies a valid UTXO into a typed value", () => {
-    expect(validateUtxo(makeUtxo())).toEqual(makeUtxo());
+    expect(createUtxo(makeUtxo())).toEqual(makeUtxo());
   });
 
   it.each([
@@ -84,7 +82,7 @@ describe("UTXO validation", () => {
     [{ ...makeUtxo(), scriptType: "unknown" }],
     [null],
   ])("rejects invalid UTXO values", (value) => {
-    expect(() => validateUtxo(value)).toThrow(InvalidUtxoError);
+    expect(() => createUtxo(value)).toThrow(InvalidUtxoError);
   });
 });
 
