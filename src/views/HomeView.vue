@@ -2,8 +2,6 @@
 import DisclaimerBar from "../components/DisclaimerBar.vue";
 import HeroSection from "../components/HeroSection.vue";
 import SectionBlock from "../components/SectionBlock.vue";
-import SiteFooter from "../components/SiteFooter.vue";
-import SiteNav from "../components/SiteNav.vue";
 import StatRow from "../components/StatRow.vue";
 import ValueProp from "../components/ValueProp.vue";
 
@@ -11,26 +9,25 @@ const statusItems = [
   {
     value: "—",
     label: "estimated savings",
-    note: "Placeholder: calculated results are not available yet.",
+    note: "Placeholder: open the planner to calculate your own estimate.",
   },
   {
     value: "—",
     label: "break-even rate",
-    note: "Placeholder: fee assumptions are not available yet.",
+    note: "Placeholder: open the planner to calculate your own estimate.",
   },
   {
     value: "—",
     label: "uneconomical UTXOs",
-    note: "Placeholder: UTXO analysis is not available yet.",
+    note: "Placeholder: open the planner to calculate your own estimate.",
   },
 ] as const;
 </script>
 
 <template>
-  <SiteNav />
   <main>
     <HeroSection
-      eyebrow="step 1 · placeholder landing page"
+      eyebrow="placeholder landing page"
       title="Consolidate when the fee is right."
       description="Placeholder copy: consolidation pays a fee now to combine small inputs, in the hope that a future spend costs less. This project will compare those estimates and make the privacy tradeoff visible."
     >
@@ -61,8 +58,8 @@ const statusItems = [
         Amounts are integer sats and fee rates are sat/vB.
       </p>
       <p>
-        The core model is implemented, but this page does not collect UTXOs or
-        calculate a personal plan. The values above are intentionally blank, not
+        The core model is implemented. Use the planner to enter your own UTXOs
+        and fee assumptions; the values above are intentionally blank, not
         measured results.
       </p>
     </SectionBlock>
@@ -76,14 +73,10 @@ const statusItems = [
         Placeholder: spending multiple inputs together can link them under the
         common-input-ownership heuristic. Address lookup is not implemented.
       </p>
-      <p>
-        No planner UI, CSV import, or API calls are part of this first step.
-      </p>
     </SectionBlock>
 
     <DisclaimerBar
       message="Placeholder: estimates will depend on assumed transaction sizes and a future fee-rate estimate. Review any transaction in your own wallet before signing."
     />
   </main>
-  <SiteFooter />
 </template>

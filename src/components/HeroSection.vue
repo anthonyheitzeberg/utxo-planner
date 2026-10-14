@@ -36,15 +36,13 @@ defineProps<{
     <div class="mt-7 flex flex-wrap gap-3">
       <a
         class="inline-flex min-h-11 items-center justify-center bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-        href="#cost-model"
-        >Read the cost model</a
+        href="#/planner"
+        >Open the planner</a
       >
       <a
         class="inline-flex min-h-11 items-center justify-center border border-border px-5 py-2.5 text-sm font-semibold text-content hover:border-primary hover:text-primary dark:border-border-dark dark:text-content-dark dark:hover:border-primary-dark dark:hover:text-primary-dark"
-        href="https://github.com/anthonyheitzeberg/utxo-planner"
-        rel="noreferrer"
-        target="_blank"
-        >View the project</a
+        href="#cost-model"
+        >Read the cost model</a
       >
     </div>
   </section>
