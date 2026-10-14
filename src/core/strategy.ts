@@ -4,7 +4,8 @@ import type { FeeEnvironment, Recommendation, Utxo } from "./types";
 
 /**
  * Create a first-pass recommendation using every supplied UTXO as one batch.
- * Selection and batch optimization are intentionally deferred until the main UI.
+ * Savings are integer sats and fee-rate assumptions are sat/vB.
+ * TODO: Add selection and batch optimization with the planner UI.
  */
 export function recommendConsolidation(
   utxos: readonly Utxo[],

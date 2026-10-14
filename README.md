@@ -7,8 +7,9 @@
 UTXO Planner is an open-source, client-side tool for evaluating when and how to
 consolidate Bitcoin UTXOs. Consolidation pays a transaction fee now to combine
 inputs, with the aim of reducing the cost of future spends. This initial
-scaffold implements the pure cost-model foundation and a responsive editorial
-landing page; it does not yet import CSVs, make API requests, or provide the
+scaffold implements the pure cost-model foundation and a responsive static
+landing page; the copy and empty result indicators are clearly marked as
+placeholders. It does not yet import CSVs, make API requests, or provide the
 interactive planning UI.
 
 > **Security:** This tool never asks for keys. It runs in your browser. It
@@ -64,10 +65,10 @@ those warnings is not implemented yet.
 
 ## Networks and data sources
 
-The app shell includes a network selector placeholder for mainnet, testnet4,
-and signet, defaulting to testnet4 during development. It does not yet connect
-to mempool.space or retrieve current or historical fee data. No API endpoint or
-network prefix is used by this scaffold; verify paths against the
+The landing page uses native hash links to navigate its sections. No network
+selector is included yet. The app does not connect to mempool.space or retrieve
+current or historical fee data. No API endpoint or network prefix is used by
+this scaffold; verify paths against the
 [official mempool.space REST API documentation](https://mempool.space/docs/api/rest)
 when implementing the service.
 
@@ -78,13 +79,14 @@ src/
   core/        pure TypeScript types, script sizes, cost model, strategy and privacy
   services/    future network and CSV I/O (not implemented)
   stores/      future Pinia state (not implemented)
-  components/  future UI components (not implemented)
-  views/       future views (not implemented)
+  components/  static landing-page components
+  views/       static home view
 tests/core/    cost-model, validation, and privacy tests
 ```
 
 The `src/core` modules have no Vue, DOM, storage, or network access. Vite is
-configured for the GitHub Pages project path `/utxo-planner/`.
+configured for the GitHub Pages project path `/utxo-planner/`. Tailwind theme
+tokens provide light and dark surfaces, text, borders, and semantic colors.
 
 ## Getting started
 
@@ -101,7 +103,7 @@ npm run dev
 | ------------------- | ----------------------------------------------------- |
 | `npm run dev`       | Start the local development server                    |
 | `npm run build`     | Type-check and create the production build in `dist/` |
-| `npm run test`      | Run unit and fast-check property tests                |
+| `npm run test`      | Run unit and fast-check property tests once           |
 | `npm run lint`      | Run ESLint and Prettier checks                        |
 | `npm run typecheck` | Run `vue-tsc --noEmit`                                |
 
