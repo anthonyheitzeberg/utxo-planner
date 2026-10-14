@@ -5,45 +5,134 @@ const selectedNetwork = ref("testnet4");
 </script>
 
 <template>
-  <div
-    class="min-h-screen bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-100"
-  >
-    <header
-      class="border-b border-slate-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900"
-    >
-      <div
-        class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4"
-      >
-        <h1 class="text-xl font-semibold tracking-tight">UTXO Planner</h1>
-        <label
-          class="flex items-center gap-2 text-sm font-medium"
-          for="network"
-        >
-          Network
-          <select
-            id="network"
-            v-model="selectedNetwork"
-            class="rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-          >
-            <option value="mainnet">Mainnet</option>
-            <option value="testnet4">Testnet4</option>
-            <option value="signet">Signet</option>
+  <div class="site">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="wordmark" href="#top" aria-label="UTXO Planner home">
+          UTXO Planner
+        </a>
+
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a href="#top">overview</a>
+          <a href="#cost-model">cost model</a>
+          <a href="#privacy">privacy</a>
+          <a href="https://github.com/anthonyheitzeberg/utxo-planner">
+            github
+          </a>
+        </nav>
+
+        <label class="network-picker" for="network">
+          <span>network</span>
+          <select id="network" v-model="selectedNetwork">
+            <option value="mainnet">mainnet</option>
+            <option value="testnet4">testnet4</option>
+            <option value="signet">signet</option>
           </select>
         </label>
       </div>
     </header>
 
-    <main class="mx-auto max-w-5xl px-4 py-12">
-      <p class="text-slate-600 dark:text-slate-300">
-        Plan a consolidation when current fees are low relative to the fees you
-        expect to pay later.
-      </p>
+    <main id="top" class="page-content">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">
+          UTXO PLANNER <span aria-hidden="true">·</span> BITCOIN FEE PLANNING
+        </p>
+        <h1 id="page-title">Consolidate when the fee is right.</h1>
+        <p class="hero-copy">
+          Consolidation is a bet: pay a fee now to combine small inputs, so a
+          future spend may cost less. UTXO Planner compares that cost with the
+          fee rate you expect later—and makes the privacy tradeoff clear.
+        </p>
+
+        <div class="principles" aria-label="Project principles">
+          <article class="principle">
+            <p class="eyebrow">THE MODEL</p>
+            <p>
+              Transparent estimates in satoshis, with costs rounded up and
+              assumptions kept visible.
+            </p>
+          </article>
+          <article class="principle">
+            <p class="eyebrow">PRIVATE BY DESIGN</p>
+            <p>
+              Planning runs in your browser. Address lookups will require
+              explicit consent before data is sent.
+            </p>
+          </article>
+          <article class="principle">
+            <p class="eyebrow">IN DEVELOPMENT</p>
+            <p>
+              The core cost model is taking shape. CSV import, live fees, and
+              the planner interface are still to come.
+            </p>
+          </article>
+        </div>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#cost-model">
+            Explore the cost model
+          </a>
+          <a
+            class="button button-secondary"
+            href="https://github.com/anthonyheitzeberg/utxo-planner"
+          >
+            View the project on GitHub
+          </a>
+        </div>
+        <p class="hero-note">
+          Open source. No accounts, analytics, or cookies.
+          <a href="#privacy"
+            >How privacy works <span aria-hidden="true">→</span></a
+          >
+        </p>
+      </section>
+
+      <section
+        id="cost-model"
+        class="detail-section"
+        aria-labelledby="model-title"
+      >
+        <p class="eyebrow">THE COST MODEL</p>
+        <h2 id="model-title">A simple question, made explicit.</h2>
+        <p>
+          A consolidation is worthwhile only when the expected reduction in
+          future input fees is greater than the fee paid now. All amounts are
+          integer sats; fee rates are sat/vB.
+        </p>
+        <pre
+          class="formula"
+        ><code>cost now       = ceil((overhead + input vB + output vB) × current rate)
+future savings = (inputs before − input after) × expected future rate
+net savings    = future savings − cost now</code></pre>
+        <p>
+          The break-even rate is the current sat/vB rate where estimated net
+          savings reach zero. It is a planning estimate, not a promise about
+          future fees or actual transaction size.
+        </p>
+      </section>
+
+      <section
+        id="privacy"
+        class="detail-section privacy-section"
+        aria-labelledby="privacy-title"
+      >
+        <p class="eyebrow">PRIVACY IS PART OF THE DECISION</p>
+        <h2 id="privacy-title">Lower fees can mean less privacy.</h2>
+        <p>
+          Spending multiple inputs together can link them under the
+          common-input-ownership heuristic. Mixing script types can reveal
+          additional wallet patterns. Consider those costs before consolidating.
+        </p>
+      </section>
     </main>
 
-    <aside
-      aria-label="Privacy and security notice"
-      class="fixed inset-x-0 bottom-0 border-t border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100"
-    >
+    <footer class="site-footer">
+      <p>
+        For planning only. This tool never signs or broadcasts transactions.
+      </p>
+    </footer>
+
+    <aside class="security-notice" aria-label="Privacy and security notice">
       This tool never asks for keys. It runs in your browser.
     </aside>
   </div>

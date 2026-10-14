@@ -7,8 +7,9 @@
 UTXO Planner is an open-source, client-side tool for evaluating when and how to
 consolidate Bitcoin UTXOs. Consolidation pays a transaction fee now to combine
 inputs, with the aim of reducing the cost of future spends. This initial
-scaffold implements the pure cost-model foundation and a minimal app shell; it
-does not yet import CSVs, make API requests, or provide the planning UI.
+scaffold implements the pure cost-model foundation and a responsive editorial
+landing page; it does not yet import CSVs, make API requests, or provide the
+interactive planning UI.
 
 > **Security:** This tool never asks for keys. It runs in your browser. It
 > never signs or broadcasts transactions. It has no backend, analytics,
