@@ -35,7 +35,7 @@ defineProps<{
     </div>
     <div class="mt-7 flex flex-wrap gap-3">
       <a
-        class="inline-flex min-h-11 items-center justify-center bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        class="inline-flex min-h-11 items-center justify-center bg-action px-5 py-2.5 text-sm font-semibold text-on-primary hover:bg-action-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action"
         href="#/planner"
         >Open the planner</a
       >
